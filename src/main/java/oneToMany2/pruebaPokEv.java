@@ -11,10 +11,10 @@ public class pruebaPokEv {
 
     public static void main(String[] args) {
 
-        Pokemon po = new Pokemon("Bulbasaur", 10, "Planta", null);
+        Pokemon po = new Pokemon("Charmander", 10, "Fuego", null);
 
-        po.addEvolucion("Ivysaur", 20, "Planta", null);
-        po.addEvolucion("Venusaur", 38, "Planta", "Veneno");
+        po.addEvolucion("Charmeleon", 20, "Fuego", null);
+        po.addEvolucion("Charizard", 38, "Fuego", "Volador");
 
         try {
             em.getTransaction().begin();
