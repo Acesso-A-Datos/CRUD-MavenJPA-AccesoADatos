@@ -1,6 +1,7 @@
-package oneToMany;
+package oneToMany2;
 
 import jakarta.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,9 +10,6 @@ import java.util.Set;
 public class Pokemon {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
     @Column(name = "nombre")
     private String nombre;
 
@@ -46,8 +44,6 @@ public class Pokemon {
     public boolean removeEvolucion(Evolucion ev) {
         return evoluciones.remove(ev);
     }
-
-    public int getId() { return id; }
 
     public String getNombre() { return nombre; }
 
