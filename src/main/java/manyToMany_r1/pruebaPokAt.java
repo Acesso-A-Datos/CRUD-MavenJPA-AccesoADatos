@@ -74,7 +74,7 @@ public class pruebaPokAt {
                     String nombre = pedirString("Introduce el nombre del pokemon que quieres buscar");
                     System.out.println();
                     mostrarPokemonPorNombre(nombre);
-                }  else if (respuesta == 6) {
+                } else if (respuesta == 6) {
                     String nombre = pedirString("Introduce el nombre del ataque que quieres buscar");
                     mostrarAtaquePorNombre(nombre);
                 } else if (respuesta == 7) {
@@ -390,6 +390,7 @@ public class pruebaPokAt {
     }
 
     public static void actualizarPokemonPorId(int id) {
+        boolean cambioNombre = preguntarBoolean("Desea cambiar le nombre?");
         boolean cambioNivel = preguntarBoolean("Desea cambiar el nivel?");
         boolean cambioTipo1 = preguntarBoolean("Desea cambiar el tipo principal?");
         boolean cambioTipo2 = preguntarBoolean("Desea cambiar el tipo secundario?");
@@ -400,9 +401,15 @@ public class pruebaPokAt {
 
             Pokemon po = em.find(Pokemon.class, id);
 
+            String nombre = po.getNombre();
             int nivel = po.getNivel();
             String tipo1 = po.getTipo1();
             String tipo2 = po.getTipo2();
+
+            if (cambioNombre) {
+                nombre = pedirString("Introduce el nuevo nombre que quieres asignar");
+                po.setNombre(nombre);
+            }
 
             if (cambioNivel) {
 
@@ -441,7 +448,7 @@ public class pruebaPokAt {
                 }
                 int numEvo = pedirEntero("Introduce cual de los ataques quieres cambiar");
                 int contador = 0;
-                boolean cambioNombre = preguntarBoolean("Desea cambiar el nombre?");
+                boolean cambioNombreAt = preguntarBoolean("Desea cambiar el nombre?");
                 boolean cambioTipoAt = preguntarBoolean("Desea cambiar el tipo del ataque?");
                 boolean cambioPotencia = preguntarBoolean("Desea cambiar la potencia?");
                 boolean cambioPrecision = preguntarBoolean("Desea cambiar la precision?");
@@ -454,7 +461,7 @@ public class pruebaPokAt {
                         int potenciaAt = at.getPotencia();
                         int precisionAt = at.getPrecisionAt();
 
-                        if (cambioNombre) {
+                        if (cambioNombreAt) {
 
                             nombreAt = pedirString("Introduce el nuevo nombre que quieres asignar (no se permiten espacios)");
                             at.setNombre(nombreAt);
@@ -561,7 +568,7 @@ public class pruebaPokAt {
             if (cambioPokemon) {
 
                 Set<Pokemon> pokemons = at.getPokemons();
-                System.out.println("Tienes " + pokemons.size() + " evoluciones, cual quieres modificar?: ");
+                System.out.println("Tienes " + pokemons.size() + " pokemon, cual quieres modificar?: ");
                 System.out.println("\tAtaques: ");
                 for (Pokemon po : pokemons) {
                     System.out.println("\t" + po.toStringAtUnico());
@@ -569,8 +576,9 @@ public class pruebaPokAt {
 
                 System.out.println();
 
-                int numPok = pedirEntero("Introduce cual de las evoluciones quieres cambiar");
+                int numPok = pedirEntero("Introduce cual de los pokemon quieres cambiar");
                 int contador = 0;
+                boolean cambioNombrePok = preguntarBoolean("Desea cambiar le nombre?");
                 boolean cambioNivel = preguntarBoolean("Desea cambiar el nivel?");
                 boolean cambioTipo1 = preguntarBoolean("Desea cambiar el tipo principal?");
                 boolean cambioTipo2 = preguntarBoolean("Desea cambiar el tipo secundario?");
@@ -578,9 +586,15 @@ public class pruebaPokAt {
                 for (Pokemon po : pokemons) {
                     if (contador == (numPok - 1)) {
 
+                        String nombrePok = po.getNombre();
                         int nivel = po.getNivel();
                         String tipo1 = po.getTipo1();
                         String tipo2 = po.getTipo2();
+
+                        if (cambioNombrePok) {
+                            nombrePok = pedirString("Introduce el nuevo nombre que quieres asignar");
+                            po.setNombre(nombrePok);
+                        }
 
                         if (cambioNivel) {
 
