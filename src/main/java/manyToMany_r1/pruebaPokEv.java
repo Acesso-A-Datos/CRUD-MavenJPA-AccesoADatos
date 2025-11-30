@@ -390,7 +390,6 @@ public class pruebaPokEv {
     }
 
     public static void actualizarPokemonPorId(int id) {
-        Scanner teclado = new Scanner(System.in);
         boolean cambioNivel = preguntarBoolean("Desea cambiar el nivel?");
         boolean cambioTipo1 = preguntarBoolean("Desea cambiar el tipo principal?");
         boolean cambioTipo2 = preguntarBoolean("Desea cambiar el tipo secundario?");
@@ -440,8 +439,7 @@ public class pruebaPokEv {
                 for (Ataque at: ataques) {
                     System.out.println("\t\t"+at);
                 }
-                System.out.print("Introduce cual de los ataques quieres cambiar: ");
-                int numEvo = teclado.nextInt();
+                int numEvo = pedirEntero("Introduce cual de los ataques quieres cambiar");
                 int contador = 0;
                 boolean cambioNombre = preguntarBoolean("Desea cambiar el nombre?");
                 boolean cambioTipoAt = preguntarBoolean("Desea cambiar el tipo del ataque?");
@@ -512,8 +510,6 @@ public class pruebaPokEv {
     }
 
     public static void actualizarAtaquePorId(int id) {
-        Scanner teclado = new Scanner(System.in);
-        String respuesta = "no";
         boolean cambioNombre = preguntarBoolean("Desea cambiar el nombre?");
         boolean cambioTipo = preguntarBoolean("Desea cambiar el tipo del ataque?");
         boolean cambioPrecision = preguntarBoolean("Desea cambiar la potencia?");
