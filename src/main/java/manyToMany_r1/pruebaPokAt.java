@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
-public class pruebaPokEv {
+public class pruebaPokAt {
 
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("UnidadPokemon4");
     private static EntityManager em = emf.createEntityManager();
