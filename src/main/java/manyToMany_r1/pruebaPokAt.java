@@ -55,17 +55,26 @@ public class pruebaPokAt {
                     System.out.println("Pokemon añadido con exito\n");
                 } else if (respuesta == 2) {
                     String nombreAt = pedirString("Introduce un nombre para el ataque (no se permiten espacios)");
-                    String tipoAt = pedirString("Introduce un tipo para el ataque");
-                    int potenciaAt = pedirEntero("Introduce una potencia para el ataque");
-                    int precisionAt = pedirEntero("Introduce una precision para el ataque");
+                    Ataque at = buscarAtaquePorNombre(nombreAt);
+                    String tipoAt = "";
+                    int potenciaAt = 0;
+                    int precisionAt = 0;
+                    boolean pokemon = false;
+                    if (at==null) {
+                        tipoAt = pedirString("Introduce un tipo para el ataque");
+                        potenciaAt = pedirEntero("Introduce una potencia para el ataque");
+                        precisionAt = pedirEntero("Introduce una precision para el ataque");
+                    } else {
+                        System.out.println("El ataque ya existe");
+                    }
                     boolean respuestaTec = preguntarBoolean("Quieres un pokemon para el ataque?");
                     System.out.println();
-                    boolean pokemon = false;
-                    if (respuestaTec){
+                    if (respuestaTec) {
                         pokemon = true;
                     }
 
                     insertarAtaque(nombreAt, tipoAt, potenciaAt, precisionAt, pokemon);
+
                 } else if (respuesta == 3) {
                     mostrarTodosLosPokemon();
                 } else if (respuesta == 4) {
@@ -125,6 +134,17 @@ public class pruebaPokAt {
         return teclado.next();
     }
 
+    public static Ataque buscarAtaquePorNombre(String nombre) {
+        try {
+            return em.createQuery(
+                            "SELECT a FROM Ataque a WHERE a.nombre = :nombre", Ataque.class)
+                    .setParameter("nombre", nombre)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public static void insertarPokemon(String nombre, int nivel, String tipo1, String tipo2, boolean ataque) {
 
         if (tipo2.equalsIgnoreCase("null")) {
@@ -135,21 +155,26 @@ public class pruebaPokAt {
 
         if (ataque) {
             boolean continuar = true;
-             for (Ataque at: po.getAtaques()) {
-                 if (){
-
-                 }
-             }
-
 
             while (continuar) {
 
                 String nombreAt = pedirString("Introduce un nombre para el ataque (no se permiten espacios)");
-                String tipoAt = pedirString("Introduce un tipo para el ataque");
-                int potenciaAt = pedirEntero("Introduce una potencia para el ataque");
-                int precisionAt = pedirEntero("Introduce una precision para el ataque");
+                Ataque ataqueExistente = buscarAtaquePorNombre(nombreAt);
 
-                po.addAtaque(nombreAt, tipoAt, potenciaAt, precisionAt);
+                if (ataqueExistente != null) {
+                    System.out.println("El ataque ya existe, se lo asigno al pokemon");
+                    po.getAtaques().add(ataqueExistente);
+                    ataqueExistente.getPokemons().add(po);
+                } else {
+                    String tipoAt = pedirString("Introduce un tipo para el ataque");
+                    int potenciaAt = pedirEntero("Introduce una potencia para el ataque");
+                    int precisionAt = pedirEntero("Introduce una precision para el ataque");
+
+                    Ataque nuevo = new Ataque(nombreAt, tipoAt, potenciaAt, precisionAt);
+                    po.getAtaques().add(nuevo);
+                    nuevo.getPokemons().add(po);
+                }
+
                 boolean respuesta = preguntarBoolean("Ataque añadido con exito, desea añadir otro?");
                 System.out.println();
                 if (!respuesta){
@@ -176,7 +201,12 @@ public class pruebaPokAt {
 
     public static void insertarAtaque(String nombreAt, String tipoAt, int potenciaAt, int precisionAt, boolean pokemon) {
 
-        Ataque at = new Ataque(nombreAt, tipoAt, potenciaAt, precisionAt);
+        Ataque at = buscarAtaquePorNombre(nombreAt);
+
+        if (at == null) {
+          at = new Ataque(nombreAt, tipoAt, potenciaAt, precisionAt);
+        }
+
         Pokemon po = null;
 
         if (pokemon) {
